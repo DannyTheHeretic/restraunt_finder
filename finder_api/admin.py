@@ -3,13 +3,13 @@ from django.contrib import admin
 # Register your models here.
 from typing import ClassVar
 
-from finder_api.models import User, Restraunt, Reviews, Cuisine
+from finder_api.models import User, Restaurant, Reviews, Cuisine
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
 
 class CuisineInline(admin.TabularInline):
-    model = Restraunt.catagory.through
+    model = Restaurant.catagory.through
     extra = 3
 
 @admin.register(User)
@@ -28,8 +28,8 @@ class UserAdmin(BaseUserAdmin):
     ]
 
 
-@admin.register(Restraunt)
-class RestrauntAdmin(admin.ModelAdmin):
+@admin.register(Restaurant)
+class RestaurantAdmin(admin.ModelAdmin):
     """Base JSON."""
 
 
@@ -38,6 +38,7 @@ class RestrauntAdmin(admin.ModelAdmin):
             "Features",
             {
                 "fields": (
+                    "uuid",
                     "name",
                     "address",
                     "city",
@@ -51,6 +52,7 @@ class RestrauntAdmin(admin.ModelAdmin):
     ]
     
     inlines=[CuisineInline]
+    readonly_fields = ["uuid"]
 
 
 
@@ -73,10 +75,10 @@ class ReviewsAdmin(admin.ModelAdmin):
     """Base JSON."""
 
     list_display: ClassVar = [
-        "restraunt", "user", "rating",
+        "restaurant", "user", "rating",
     ]
 
     fieldsets: ClassVar = [
-        ("Features", {"fields": ("restraunt","user","rating","review_text","created_at")}),
+        ("Features", {"fields": ("restaurant","user","rating","review_text","created_at")}),
     ]   
     readonly_fields = ["created_at"]

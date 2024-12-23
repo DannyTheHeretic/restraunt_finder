@@ -1,38 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Finder</title>
-    {% include "app/embed/style.html" %}
-</head>
-<body>
-    <header>
-        <div class="logo">
-            <h1>Restaurant </h1>
-        </div>
-        <nav>
-            <a href="/">Home</a>
-            <a href="#">Search</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-        </nav>
-    </header>
+{% extends "app/embed/layout.html" %}
+{% block content %}
+{% include "app/embed/search.html" %}
 
-    <div class="container">
-        <div class="search-bar">
-            <input type="text" placeholder="Search for restaurants...">
-            <button type="submit">Search</button>
-        </div>
-
-
-        {% for restaurant in restaurants %}
-            {% include "app/embed/restraunt-card.html" %}
-        {% endfor %}
-    </div>
-
-    <footer>
-        <p>&copy; 2024 Restaurant Finder. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+{% for restaurant in restaurant %}
+    {% include "app/embed/restaurant-card.html" %}
+{% endfor %}
+{% include "app/embed/pagination.html"%}
+{% endblock content %}

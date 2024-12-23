@@ -1,31 +1,51 @@
 from django.shortcuts import get_object_or_404, render, get_list_or_404
-
+from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpRequest
+from django.views.generic import ListView
 
-from finder_api.models import Cuisine, Restraunt
+from finder_api.models import Cuisine, Restaurant
+
+
+class RestaurantListView(ListView):
+    paginate_by = 2
+    model = Restaurant
 
 
 def index(request:HttpRequest) -> HttpResponse:
-    res = get_list_or_404(Restraunt)
-    all_gathered = [i.dict() for i in res]
+    res = Restaurant.objects.all()
+    paginator = Paginator(res, 25)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
     return render(
         request,
         "app/index.html",
         {
-            "restaurants": all_gathered,
+            "page_obj": page_obj,
+            "restaurant": [i.dict() for i in page_obj]
         }
     )
     
 def cuisine(request:HttpRequest, catagory:str):
     cat = get_object_or_404(Cuisine, name=catagory)
-    res = get_list_or_404(cat.restraunt_set)
-    all_gathered = [i.dict() for i in res]
+    res = get_list_or_404(cat.restaurant_set)
+    paginator = Paginator(res, 25)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
     return render(
         request,
         "app/cuisine.html",
         {
-            "restaurants": all_gathered,
+            "page_obj": page_obj,
+            "restaurants": [i.dict() for i in page_obj],
             "name":cat.name, 
             "description":cat.description
         },
+    )
+    
+def restaurant(request:HttpRequest, name:str):
+    res = get_object_or_404(Restaurant,pk=name)
+    return render(
+        request,
+        "app/restaurant.html",
+        res.dict()
     )

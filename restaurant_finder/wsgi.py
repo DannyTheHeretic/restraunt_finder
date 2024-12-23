@@ -1,5 +1,5 @@
 """
-WSGI config for restraunt_finder project.
+WSGI config for restaurant_finder project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'restraunt_finder.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'restaurant_finder.settings')
 
 application = get_wsgi_application()

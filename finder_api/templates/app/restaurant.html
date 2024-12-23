@@ -1,0 +1,14 @@
+{% extends "app/embed/layout.html" %}
+
+{% block content %}
+<h2>{{name}}</h3>
+<h3>{{address}}</h6>
+<h3>{{city}}</h3>
+<h3>{{website}}</h3>
+<img src="{{logo}}">
+<p>Cuisine: 
+    {% for t in catagory %}
+        <a href="/cuisine/{{t}}"><span  class="cuisine-button">{{t}}</span></a>
+    {% endfor %}
+</p>
+{% endblock content %}
