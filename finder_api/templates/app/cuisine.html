@@ -3,7 +3,7 @@
 <h2>{{name}}</h3>
 <h3>{{description}}</h6>
 
-{% for restaurant in restaurants %}
+{% for restaurant in page_obj %}
     {% include "app/embed/restaurant-card.html" %}
 {% endfor %}
 {% include "app/embed/pagination.html"%}

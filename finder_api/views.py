@@ -35,7 +35,6 @@ def cuisine(request:HttpRequest, catagory:str):
         "app/cuisine.html",
         {
             "page_obj": page_obj,
-            "restaurants": [i.dict() for i in page_obj],
             "name":cat.name, 
             "description":cat.description
         },
@@ -46,5 +45,5 @@ def restaurant(request:HttpRequest, name:str):
     return render(
         request,
         "app/restaurant.html",
-        res.dict()
+        {"restaurant":res}
     )

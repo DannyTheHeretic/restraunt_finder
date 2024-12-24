@@ -42,10 +42,6 @@ class Restaurant(models.Model):
 
 
     def dict(self):
-        try:
-            logo= f"https://logo.clearbit.com/{self.website.split("www.")[1].split("/")[0]}/"
-        except IndexError:
-            logo = ""
         return {
             "id": self.uuid,
             "name": self.name,
@@ -56,12 +52,12 @@ class Restaurant(models.Model):
             "rating": self.average_rating,
             "price_level": price[self.price_level-1][1],
             "catagory": [i.name for i in self.catagory.all()],
-            "logo": self.logo.strip("./finder_api/")
+            "logo": self.get_logo()
         }
     
     def get_logo(self):
         try:
-            return self.logo.url.strip("/finder_api/")
+            return self.logo.url.removeprefix("/finder_api")
         except ValueError:
             return ""
         

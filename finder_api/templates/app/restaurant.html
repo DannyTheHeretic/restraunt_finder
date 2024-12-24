@@ -2,16 +2,16 @@
 
 {% block content %}
 {% load static %}
-<img src="{% static "images/logos/perkins.png" %}">
+<img src="{{restaurant.get_logo}}">
 
-<h2>{{name}}</h3>
-<h3>{{address}}</h6>
-<h3>{{city}}</h3>
-<h3><a href="{{website}}">{{website}}</a></h3>
-<h3>{{price_level}}</h3>
+<h2>{{restaurant.name}}</h3>
+<h3>{{restaurant.address}}</h6>
+<h3>{{restaurant.city}}</h3>
+<h3><a href="{{restaurant.website}}">{{website}}</a></h3>
+<h3>{{restaurant.price_level}}</h3>
 
 <p>Cuisine: 
-    {% for t in catagory %}
+    {% for t in restaurant.catagory.all %}
         <a href="/cuisine/{{t}}"><span  class="cuisine-button">{{t}}</span></a>
     {% endfor %}
 </p>
