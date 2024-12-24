@@ -46,6 +46,7 @@ class RestaurantAdmin(admin.ModelAdmin):
                     "website",
                     "average_rating",
                     "price_level",
+                    "logo",
                 )
             },
         ),

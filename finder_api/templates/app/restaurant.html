@@ -1,11 +1,15 @@
 {% extends "app/embed/layout.html" %}
 
 {% block content %}
+{% load static %}
+<img src="{% static "images/logos/perkins.png" %}">
+
 <h2>{{name}}</h3>
 <h3>{{address}}</h6>
 <h3>{{city}}</h3>
-<h3>{{website}}</h3>
-<img src="{{logo}}">
+<h3><a href="{{website}}">{{website}}</a></h3>
+<h3>{{price_level}}</h3>
+
 <p>Cuisine: 
     {% for t in catagory %}
         <a href="/cuisine/{{t}}"><span  class="cuisine-button">{{t}}</span></a>

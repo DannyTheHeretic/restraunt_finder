@@ -21,7 +21,6 @@ def index(request:HttpRequest) -> HttpResponse:
         "app/index.html",
         {
             "page_obj": page_obj,
-            "restaurant": [i.dict() for i in page_obj]
         }
     )
     

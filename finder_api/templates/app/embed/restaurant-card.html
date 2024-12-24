@@ -1,12 +1,13 @@
 {% load static %}
 <div class="restaurant-card">
-    <img src="{{restaurant.logo}}" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/c/ce/Example_image.png'" alt="Restaurant Image">
+
+    <img src="{{restaurant.get_logo}}"> 
     <div class="restaurant-info">
         <h3>{{restaurant.name}}</h3>
         <p>Address: {{restaurant.address}}, {{restaurant.city}}</p>
         <p>Rating: {{restaurant.rating}}</p>
         <p>Cuisine: 
-            {% for t in restaurant.catagory %}
+            {% for t in restaurant.catagory.all %}
                 <a href="/cuisine/{{t}}"><span  class="cuisine-button">{{t}}</span></a>
             {% endfor %}
         </p>

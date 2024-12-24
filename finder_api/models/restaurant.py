@@ -35,6 +35,7 @@ class Restaurant(models.Model):
     average_rating = models.IntegerField(choices=rate)
     price_level = models.IntegerField(choices=price,blank=True)
     catagory = models.ManyToManyField('Cuisine',blank=True)
+    logo = models.ImageField(upload_to="./finder_api/static/images/logos") 
 
     class Meta:
         ordering = ["name"]
@@ -53,10 +54,16 @@ class Restaurant(models.Model):
             "phone": self.phone_number,
             "website": self.website,
             "rating": self.average_rating,
-            "price_level": self.price_level,
+            "price_level": price[self.price_level-1][1],
             "catagory": [i.name for i in self.catagory.all()],
-            "logo": logo
+            "logo": self.logo.strip("./finder_api/")
         }
     
+    def get_logo(self):
+        try:
+            return self.logo.url.strip("/finder_api/")
+        except ValueError:
+            return ""
+        
     def __str__(self):
         return self.name

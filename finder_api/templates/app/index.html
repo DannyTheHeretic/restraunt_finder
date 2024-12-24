@@ -2,7 +2,7 @@
 {% block content %}
 {% include "app/embed/search.html" %}
 
-{% for restaurant in restaurant %}
+{% for restaurant in page_obj %}
     {% include "app/embed/restaurant-card.html" %}
 {% endfor %}
 {% include "app/embed/pagination.html"%}
