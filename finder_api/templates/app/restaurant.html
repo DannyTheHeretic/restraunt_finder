@@ -1,18 +1,167 @@
 {% extends "app/embed/layout.html" %}
 
 {% block content %}
-{% load static %}
-<img src="{{restaurant.get_logo}}">
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .container {
+        width: 35%;
+    }
+    .details-container {
+        max-width: 1200px;
+        margin: 20px auto 60px; /* Added bottom margin for scroll height */
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.8s ease-out;
+    }
 
-<h2>{{restaurant.name}}</h3>
-<h3>{{restaurant.address}}</h6>
-<h3>{{restaurant.city}}</h3>
-<h3><a href="{{restaurant.website}}">{{website}}</a></h3>
-<h3>{{restaurant.price_level}}</h3>
+    .details-container img {
+        width: 50%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-<p>Cuisine: 
-    {% for t in restaurant.catagory.all %}
-        <a href="/cuisine/{{t}}"><span  class="cuisine-button">{{t}}</span></a>
-    {% endfor %}
-</p>
+    .details-container h2 {
+        color: #8c1f28;
+        margin-bottom: 10px;
+        text-align: center;
+        animation: slideInLeft 0.5s ease-out;
+    }
+
+    .details-container h3 {
+        color: #04635e;
+        margin: 5px 0;
+    }
+
+    .details-container h3 a {
+        color: #8c1f28;
+        text-decoration: none;
+    }
+
+    .details-container h3 a:hover {
+        text-decoration: underline;
+    }
+
+    .cuisine-button {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 5px 0;
+        background-color: #e8f5f3;
+        color: #04635e;
+        border: 1px solid #04635e;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9em;
+        animation: fadeIn 1s ease-in;
+    }
+
+    .cuisine-button:hover {
+        background-color: #04635e;
+        color: white;
+    }
+
+    .reviews-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+    }
+
+    .map-container {
+        margin-top: 30px;
+        text-align: center;
+        height: 300px;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        z-index: 0;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideInLeft {
+        0% {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    
+</style>
+<div class="details-container">
+    <img src="{{ restaurant.get_logo }}" alt="{{ restaurant.name }} Logo">
+
+    <h2>{{ restaurant.name }}</h2>
+    <h3>Address: {{ restaurant.address }}</h3>
+    <h3>City: {{ restaurant.city }}</h3>
+    <h3>Website: <a href="{{ restaurant.website }}" target="_blank">{{ restaurant.website }}</a></h3>
+    <h3>Price Level: {{ restaurant.price_level }}</h3>
+
+    <p>Cuisine:
+        {% for t in restaurant.catagory.all %}
+            <a href="/cuisine/{{ t }}" class="cuisine-button">{{ t }}</a>
+        {% endfor %}
+    </p>
+
+    <div class="map-container">
+        <h3>Location</h3>
+        <div id="map"></div>
+    </div>
+
+    <div class="reviews-section">
+        <h3>Reviews</h3>
+        <!-- Placeholder for reviews -->
+        <p>No reviews yet. Be the first to leave one!</p>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var map = L.map('map').setView([0, 0], 13); // Default center
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Geocode restaurant address
+        fetch(`https://nominatim.openstreetmap.org/search?q={{ restaurant.name | urlize }} {{ restaurant.address | urlize }} {{ restaurant.city | urlize }} {{ restaurant.country | urlize }}&format=json&limit=1`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    var location = data[0];
+                    var lat = location.lat;
+                    var lon = location.lon;
+                    map.setView([lat, lon], 15);
+                    L.marker([lat, lon]).addTo(map).bindPopup("{{ restaurant.address }}").openPopup();
+                } else {
+                    console.error("No results found for the address.");
+                }
+            })
+            .catch(error => console.error("Error fetching geocode data:", error));
+    });
+</script>
 {% endblock content %}

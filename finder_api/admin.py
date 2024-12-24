@@ -42,6 +42,7 @@ class RestaurantAdmin(admin.ModelAdmin):
                     "name",
                     "address",
                     "city",
+                    "country",
                     "phone_number",
                     "website",
                     "average_rating",
