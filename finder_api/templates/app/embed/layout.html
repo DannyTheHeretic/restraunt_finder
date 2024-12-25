@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Finder</title>
-    {% include "app/embed/style.html" %}
     <style>
         body {
             margin: 0;
@@ -14,6 +13,22 @@
             color: #333;
             overflow-x: hidden;
         }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px;
+            flex-direction: column;
+        }
+        
+        .restaurant-list {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
         /* Header */
         header {
             position: fixed;
@@ -148,6 +163,14 @@
             }
     
     @media (max-width: 768px) {
+        .restaurant-list {
+            gap: 15px;
+        }
+
+        .container {
+            padding-top: 100px;
+            width: calc(90% - 20px);
+        }
 
         .pagination {
             display: flex;
@@ -186,37 +209,27 @@
         .big {
             display: none;
         }
-            header {
-                flex-wrap: wrap;
-                justify-content: center;
-                text-align: center;
-                padding: 10px;
-            }
-
-            header a {
-                margin: 5px;
-                font-size: 0.9rem;
-            }
-
-            .search-bar input {
-                width: 90%;
-                margin-bottom: 10px;
-            }
-
-            .search-bar button {
-                width: 90%;
-                margin: 0;
-            }
-
-            .container {
-                padding: 100px 10px 20px;
-            }
-
-            footer {
-                font-size: 0.9rem;
-                padding: 15px 0;
-            }
+        header {
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
         }
+
+        header a {
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            padding: 100px 10px 20px;
+        }
+
+        footer {
+            font-size: 0.9rem;
+            padding: 15px 0;
+        }
+    }
 
         @media (max-width: 480px) {
             header {
@@ -227,16 +240,6 @@
                 font-size: 0.8rem;
             }
 
-            .search-bar input {
-                width: 100%;
-                padding: 8px;
-            }
-
-            .search-bar button {
-                width: 100%;
-                padding: 8px;
-                font-size: 0.9rem;
-            }
         }
     </style>
 </head>

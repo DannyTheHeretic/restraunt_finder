@@ -1,8 +1,12 @@
 {% extends "app/embed/layout.html" %}
 {% block content %}
 
+<div class="restaurant-list">
+
 {% for restaurant in page_obj %}
     {% include "app/embed/restaurant-card.html" %}
 {% endfor %}
+</div>
+
 {% include "app/embed/pagination.html"%}
 {% endblock content %}

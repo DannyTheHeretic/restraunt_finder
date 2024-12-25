@@ -3,6 +3,7 @@
 {% block content %}
 <style>
     .category-header {
+        width: 70%;
         text-align: center;
         margin: 20px 0;
         padding: 10px;
@@ -22,13 +23,6 @@
         margin: 5px 0 0;
     }
 
-    .restaurant-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        margin: 20px 0;
-    }
-
     @media (max-width: 768px) {
         .category-header h2 {
             font-size: 1.5rem;
@@ -38,10 +32,6 @@
             font-size: 1rem;
         }
 
-        .restaurant-list {
-            flex-direction: column;
-            gap: 15px;
-        }
     }
 
     @media (max-width: 480px) {

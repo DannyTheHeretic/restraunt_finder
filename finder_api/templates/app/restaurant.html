@@ -2,44 +2,37 @@
 
 {% block content %}
 <style>
-    body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .container {
-        width: 35%;
-    }
     .details-container {
-        max-width: 1200px;
+        max-width: 800px;
         margin: 20px auto 60px; /* Added bottom margin for scroll height */
         padding: 20px;
         background: #fff;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         animation: fadeIn 0.8s ease-out;
+        width: 90%; /* Adjust for mobile */
     }
 
     .details-container img {
-        width: 50%;
+        width: 80%; /* Scaled for smaller screens */
         height: auto;
         border-radius: 8px;
-        margin-bottom: 20px;
+        margin: 0 auto 20px;
         display: block;
-        margin-left: auto;
-        margin-right: auto;
     }
 
     .details-container h2 {
         color: #8c1f28;
         margin-bottom: 10px;
         text-align: center;
+        font-size: 1.5rem; /* Adjusted for smaller screens */
         animation: slideInLeft 0.5s ease-out;
     }
 
     .details-container h3 {
         color: #04635e;
         margin: 5px 0;
+        font-size: 1.1rem; /* Adjusted for readability */
     }
 
     .details-container h3 a {
@@ -54,7 +47,7 @@
     .cuisine-button {
         display: inline-block;
         padding: 5px 10px;
-        margin: 5px 0;
+        margin: 5px 5px 0 0;
         background-color: #e8f5f3;
         color: #04635e;
         border: 1px solid #04635e;
@@ -108,7 +101,50 @@
         }
     }
 
-    
+    @media (max-width: 768px) {
+        .details-container {
+            padding: 15px;
+        }
+
+        .details-container img {
+            width: 90%; /* Further adjust for tablets */
+        }
+
+        .details-container h2 {
+            font-size: 1.4rem;
+        }
+
+        .details-container h3 {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .details-container {
+            padding: 10px;
+        }
+
+        .details-container img {
+            width: 100%;
+        }
+
+        .details-container h2 {
+            font-size: 1.2rem;
+        }
+
+        .details-container h3 {
+            font-size: 0.9rem;
+        }
+
+        .cuisine-button {
+            font-size: 0.8em;
+            padding: 4px 8px;
+        }
+
+        .map-container {
+            height: 200px;
+        }
+    }
 </style>
 <div class="details-container">
     <img src="{{ restaurant.get_logo }}" alt="{{ restaurant.name }} Logo">

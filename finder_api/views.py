@@ -73,4 +73,4 @@ def search(request:HttpRequest):
         'page_obj': page_obj,
         'query': query,
     }
-    return render(request, 'app/embed/search.html', context)
+    return render(request, 'app/search.html', context)
