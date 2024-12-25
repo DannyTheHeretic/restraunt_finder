@@ -7,6 +7,5 @@ urlpatterns = [
     path("cuisine/<str:catagory>", views.cuisine, name="cuisine"),
     path("cuisine", views.all_cuisine, name="cuisine"),
     path("restaurant/<str:name>", views.restaurant, name="restaurant"),
-    
-    
+    path("search", views.search, name="search")
 ]

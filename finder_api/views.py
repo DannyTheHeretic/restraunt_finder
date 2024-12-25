@@ -58,3 +58,19 @@ def restaurant(request:HttpRequest, name:str):
         "app/restaurant.html",
         {"restaurant":res}
     )
+    
+    
+
+def search(request:HttpRequest):
+    query = request.GET.get("q")
+    results = Restaurant.objects.filter(name__icontains=query) if query else Restaurant.objects.none()
+    
+    paginator = Paginator(results, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'query': query,
+    }
+    return render(request, 'app/embed/search.html', context)
