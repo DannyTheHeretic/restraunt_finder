@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("PROD_KEY", "default_key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #literal_eval(os.getenv("DEBUG", "False"))
+DEBUG = literal_eval(os.getenv("DEBUG", "False"))
 
 ALLOWED_HOSTS = ["restaurants.theheretic.work","localhost"]
 
@@ -141,7 +141,7 @@ SECURE_SSL_REDIRECT = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = posixpath.join(*([*str(BASE_DIR).split(os.path.sep), "static"]))
+STATIC_ROOT = "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
