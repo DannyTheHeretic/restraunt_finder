@@ -118,7 +118,6 @@ def account(request:HttpRequest):
 def other_users(request:HttpRequest, uuid: str):
     user = User.objects.get(uuid=uuid)
     if user.is_public:
-        user = request.user
         results = user.favorites.all()
         
         paginator = Paginator(results, 2)
@@ -131,7 +130,7 @@ def other_users(request:HttpRequest, uuid: str):
         page_number = request.GET.get('page_rev')
         rev_obj = paginator.get_page(page_number)
         
-        return render(request, "app/account_public.html", {"res_obj":res_obj, "rev_obj":rev_obj})
+        return render(request, "app/account_public.html", {"user":{"is_public":True, "username":user.username},"res_obj":res_obj, "rev_obj":rev_obj})
     
     return render(request, "app/account_public.html", {"user":{"is_public":False, "username":user.username}})
     
