@@ -1,0 +1,69 @@
+{% load static %}
+{% if forloop.first %}
+<style>
+    .review-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: #ffffff;
+        border: 1px solid #04635e;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .review-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .review-author {
+        font-weight: bold;
+        color: #8c1f28;
+        margin-bottom: 5px;
+    }
+
+    .review-date {
+        font-size: 0.9em;
+        color: #6c757d;
+        margin-bottom: 10px;
+    }
+
+    .review-content {
+        color: #333;
+        line-height: 1.6;
+    }
+
+    .review-rating {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 5px 10px;
+        border-radius: 4px;
+        background-color: #04635e;
+        color: white;
+        font-size: 0.9em;
+    }
+
+    @media (max-width: 768px) {
+        .review-card {
+            padding: 10px;
+        }
+
+        .review-author {
+            font-size: 1rem;
+        }
+
+        .review-content {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endif %}
+
+<div class="review-card">
+    <p class="review-author">{{ review.user }}</p>
+    <p class="review-date">{{ review.created_at }}</p>
+    <p class="review-content">{{ review.review_text }}</p>
+    <span class="review-rating">Rating: {{ review.rating_score }}/10</span>
+</div>

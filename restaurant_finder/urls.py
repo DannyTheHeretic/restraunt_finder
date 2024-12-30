@@ -16,8 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.contrib.auth.views import LoginView, LogoutView
+
+from finder_api.forms import BootstrapAuthenticationForm
 
 urlpatterns = [
     path("", include("finder_api.urls")),
-    path('admin/', admin.site.urls),
+    path("api/", include("finder_api.api.urls")),
+    path(
+        "login",
+        LoginView.as_view(
+            template_name="app/login.html",
+            authentication_form=BootstrapAuthenticationForm,
+            extra_context={
+                "title": "Log in",
+            },
+        ),
+        name="login",
+    ),
+    path("logout", LogoutView.as_view(next_page="index"), name="logout"),
+    path('admin/', admin.site.urls, name="admin"),
 ]

@@ -1,10 +1,8 @@
-{% extends "app/embed/layout.html" %}
-
-{% block content %}
-<style>
+{% extends "layout.html" %}
+{% block style %}
     .details-container {
         max-width: 800px;
-        margin: 20px auto 60px; /* Added bottom margin for scroll height */
+        margin: 20px auto 160px;
         padding: 20px;
         background: #fff;
         border-radius: 8px;
@@ -145,21 +143,30 @@
             height: 200px;
         }
     }
-</style>
+{% endblock style %}
+
+{% block content %}
+
 <div class="details-container">
     <img src="{{ restaurant.get_logo }}" alt="{{ restaurant.name }} Logo">
 
     <h2>{{ restaurant.name }}</h2>
+    
     <h3>Address: {{ restaurant.address }}</h3>
     <h3>City: {{ restaurant.city }}</h3>
     <h3>Website: <a href="{{ restaurant.website }}" target="_blank">{{ restaurant.website }}</a></h3>
     <h3>Price Level: {{ restaurant.price_level }}</h3>
-
-    <p>Cuisine:
+    {% if user.is_authenticated %}
+    <form action="/api/add_favorite?id={{restaurant.uuid}}&loc={{request.path}}" method="POST">
+        {% csrf_token %}
+        <button type="submit"class="cuisine-button">Add to Favorites</button>
+    </form>
+    {% endif %}
+    <h3>Cuisine:
         {% for t in restaurant.catagory.all %}
             <a href="/cuisine/{{ t }}" class="cuisine-button">{{ t }}</a>
         {% endfor %}
-    </p>
+    </h3>
 
     <div class="map-container">
         <h3>Location</h3>
@@ -168,8 +175,11 @@
 
     <div class="reviews-section">
         <h3>Reviews</h3>
-        <!-- Placeholder for reviews -->
+        {% for review in restaurant.reviews_set.all %}
+        {% include "app/embed/review_card.html" %} 
+        {% empty %}
         <p>No reviews yet. Be the first to leave one!</p>
+        {% endfor %}
     </div>
 </div>
 

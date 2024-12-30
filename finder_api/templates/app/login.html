@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <script src="https://accounts.google.com/gsi/client" async></script>
+{% endblock head %}
+
+{% block style %}
+
+        .login-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-form h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #591c21;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 0px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background: #591c21;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background: #b12323;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #591c21;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+{% endblock style %}
+{% block content %}
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            <h2>Login</h2>
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                <input type="text" name="username" id="id_username" required>
+            </div>
+            <div class="form-group">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" id="id_password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+            <div class="footer">
+                <a href="{% url "register" %}">Create A New Account</a><br><br>
+                <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
+            </div>
+            {% comment %} <div id="g_id_onload"
+                data-client_id="967957674775-oi6g1sk5ikr1qmip19i9pkvmcpio5pgo.apps.googleusercontent.com"
+                data-context="use"
+                data-ux_mode="popup"
+                data-login_uri="https://restaurant.theheretic.work/auth-receiver"
+                data-auto_prompt="false">
+            </div>
+
+            <div class="g_id_signin"
+                data-type="standard"
+                data-shape="rectangular"
+                data-theme="filled_white"
+                data-text="continue_with"
+                data-size="large"
+                data-logo_alignment="left">
+            </div> {% endcomment %}
+        </form>
+        
+{% endblock content %}

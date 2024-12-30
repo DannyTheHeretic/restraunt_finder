@@ -1,6 +1,3 @@
-
-
-from datetime import datetime
 from django.db import models
 from uuid import uuid4
 
@@ -14,8 +11,11 @@ class Reviews(models.Model):
     user = models.ForeignKey("User", on_delete=models.DO_NOTHING)
     rating = models.IntegerField(choices=rate)
     review_text = models.TextField(default="")
-    created_at = models.DateTimeField(verbose_name="Date Created", default=datetime.now, blank=True)
+    created_at = models.DateTimeField(verbose_name="Date Created", auto_now=True, blank=True)
     
+    class Meta:
+        ordering = ["rating"]
+        
     def dict(self):
         return {
             "id":self.uuid,
@@ -25,6 +25,9 @@ class Reviews(models.Model):
             "review":self.review_text,
             "date":self.created_at,
         }
+    
+    def rating_score(self):
+        return (self.rating/10)
     
     def __str__(self):
         return self.review_text

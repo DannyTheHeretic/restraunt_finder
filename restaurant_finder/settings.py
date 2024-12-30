@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from ast import literal_eval
+from dotenv import load_dotenv
 from pathlib import Path
 import os
-import posixpath
+
+load_dotenv(".env")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,6 +30,11 @@ SECRET_KEY = os.getenv("PROD_KEY", "default_key")
 DEBUG = literal_eval(os.getenv("DEBUG", "False"))
 
 ALLOWED_HOSTS = ["restaurants.theheretic.work","localhost"]
+
+GOOGLE_OAUTH_CLIENT_ID = os.environ.get('GOOGLE_OAUTH_CLIENT_ID')
+SECURE_REFERRER_POLICY = 'no-referrer-when-downgrade'
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
+
 
 CRSF_TRUSTED_ORIGINS = ["https://restaurants.theheretic.work/", "http://localhost:14798"]
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -55,6 +62,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+LOGIN_REDIRECT_URL = '/'
+
 ROOT_URLCONF = 'restaurant_finder.urls'
 
 TEMPLATES = [
@@ -78,30 +87,39 @@ AUTH_USER_MODEL = "finder_api.User"
 WSGI_APPLICATION = 'restaurant_finder.wsgi.application'
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = str(os.getenv('EMAIL_USER',"restaurantfinderhelp@gmail.com"))
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD',"psanjjqghilugzed"))
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+
+
+try:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'mariadb',
+            'USER': 'mariadb',
+            'PASSWORD': 'mariadb',
+            'HOST': 'db',
+            'PORT': 3306,
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
+            },
+        }
+}
+except:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mariadb',
-        'USER': 'mariadb',
-        'PASSWORD': 'mariadb',
-        'HOST': 'db',
-        'PORT': 3306,
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
-        },
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

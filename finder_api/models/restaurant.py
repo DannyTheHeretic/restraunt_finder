@@ -38,6 +38,7 @@ class Restaurant(models.Model):
     catagory = models.ManyToManyField('Cuisine',blank=True)
     logo = models.ImageField(upload_to="./finder_api/static/images/logos") 
 
+    is_public = models.BooleanField(default=False)
     class Meta:
         ordering = ["name"]
 

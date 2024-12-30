@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{%block style %}
+    .main {
+        max-width: 800px;
+        margin: 20px auto 160px;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2, h3 {
+        color: #04635e;
+    }
+
+    a {
+        color: #04635e;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+{% endblock %}
+{% block content %}
+<div class="main">
+    <h1>Terms of Service</h1>
+    <p><strong>Effective Date:</strong> January 1, 2025</p>
+
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing or using our services, you agree to be bound by these Terms of Service and our <a href="/privacy">Privacy Policy</a>. If you do not agree, do not use our services.</p>
+
+    <h2>2. Use of Our Services</h2>
+    <p>You agree to use our services only for lawful purposes and in accordance with these terms. You may not:</p>
+    <ul>
+        <li>Use the services in a way that violates any applicable law or regulation.</li>
+        <li>Engage in fraudulent, deceptive, or harmful activities.</li>
+        <li>Attempt to interfere with the security or functionality of our services.</li>
+    </ul>
+
+    <h2>3. User Accounts</h2>
+    <p>To access certain features, you may need to create an account. You are responsible for maintaining the confidentiality of your account information and for all activities under your account.</p>
+
+    <h2>4. Intellectual Property</h2>
+    <p>All content, trademarks, and intellectual property on our website are owned by us or our licensors. You may not reproduce, distribute, or create derivative works without our written permission.</p>
+
+    <h2>5. Limitation of Liability</h2>
+    <p>We are not liable for any indirect, incidental, or consequential damages arising from your use of our services. Our total liability is limited to the amount you paid us, if any, for the use of our services.</p>
+
+    <h2>6. Termination</h2>
+    <p>We reserve the right to terminate or suspend your access to our services at our discretion, without notice, for conduct that violates these terms or is otherwise harmful to us or other users.</p>
+
+    <h2>7. Governing Law</h2>
+    <p>These terms are governed by the laws of Minnesota. Any disputes will be resolved in the courts of Minnesota.</p>
+
+    <h2>8. Changes to Terms</h2>
+    <p>We may update these Terms of Service from time to time. Continued use of our services constitutes acceptance of the revised terms.</p>
+
+    <h2>9. Contact Us</h2>
+    <p>If you have any questions about these terms, please contact us at:</p>
+    <address>
+        RestaurantFinder<br>
+        <a href="mailto:daniel@theheretic.work">daniel@theheretic.work</a><br>
+    </address>
+</div>
+{% endblock %}

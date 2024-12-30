@@ -1,13 +1,10 @@
-{% extends "app/embed/layout.html" %}
+{% extends "layout.html" %}
 
 {% block content %}
 <style>
-    .container {
-        display: block;
-        align-items: center;
-        padding-top: 100px;
-    }
+
     .search-header {
+        width: 70%;
         text-align: center;
         margin: 20px 0;
         padding: 10px;
@@ -20,8 +17,9 @@
     .search-header h2 {
         font-size: 2rem;
     }
-
+    
     .search-bar {
+        width: 70%;
         display: flex;
     }
 
@@ -105,7 +103,7 @@
     {% endif %}
 </div>
 {% if page_obj %}
-    {% include "app/embed/pagination.html" %}
+    {% include "app/embed/pagination.html" with var_name="page" %}
 {% endif %}
 
 {% endblock content %}

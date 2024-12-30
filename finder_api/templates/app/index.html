@@ -1,4 +1,4 @@
-{% extends "app/embed/layout.html" %}
+{% extends "layout.html" %}
 {% block content %}
 
 <div class="restaurant-list">
@@ -8,5 +8,5 @@
 {% endfor %}
 </div>
 
-{% include "app/embed/pagination.html"%}
+{% include "app/embed/pagination.html" with var_name="page" %}
 {% endblock content %}

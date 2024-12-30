@@ -1,19 +1,19 @@
 <div class="pagination">
-        {% if page_obj.has_previous %}
-            <a class="big" href="?page=1">&laquo; first</a>
-            <a class="big"href="?page={{ page_obj.previous_page_number }}">&lsaquo; previous</a>
-            <a class="small" href="?page=1">&laquo;</a>
-            <a class="small" href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a>
-        {% endif %}
+    {% if page_obj.has_previous %}
+        <a class="big" href="?{{var_name}}=1">&laquo; first</a>
+        <a class="big"href="?{{var_name}}={{ page_obj.previous_page_number }}">&lsaquo; previous</a>
+        <a class="small" href="?{{var_name}}=1">&laquo;</a>
+        <a class="small" href="?{{var_name}}={{ page_obj.previous_page_number }}">&lsaquo;</a>
+    {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }}
-        </span>
+    <span class="current">
+        Page {{ page_obj.number }}
+    </span>
 
-        {% if page_obj.has_next %}
-            <a class="big" href="?page={{ page_obj.next_page_number }}">next &rsaquo;</a>
-            <a class="big" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            <a class="small" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a>
-            <a class="small" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
-        {% endif %}
+    {% if page_obj.has_next %}
+        <a class="big" href="?{{var_name}}={{ page_obj.next_page_number }}">next &rsaquo;</a>
+        <a class="big" href="?{{var_name}}={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        <a class="small" href="?{{var_name}}={{ page_obj.next_page_number }}">&rsaquo;</a>
+        <a class="small" href="?{{var_name}}={{ page_obj.paginator.num_pages }}">&raquo;</a>
+    {% endif %}
 </div>

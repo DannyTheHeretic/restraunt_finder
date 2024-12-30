@@ -1,0 +1,1 @@
+docker attach c8753122e110e --detach-keys="ctrl-a"

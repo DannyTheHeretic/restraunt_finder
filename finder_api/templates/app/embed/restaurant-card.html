@@ -1,101 +1,104 @@
 {% load static %}
-<style>
-    .restaurant-card {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        background-color: #ffffff;
-        border: 1px solid #04635e;
-        width: calc(100% - 45px);
-        border-radius: 8px;
-        padding-inline: 15px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .restaurant-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    .restaurant-card img {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
-
-    .restaurant-info {
-        flex: 1;
-        margin-left: 20px;
-    }
-
-    .restaurant-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    .restaurant-actions button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .more-info {
-        background-color: #04635e; /* Softer Teal Green */
-        color: white;
-    }
-
-    .book-table {
-        background-color: #d92f2f; /* Softer Bright Red */
-        color: white;
-        margin-left: 10px;
-    }
-    
-    .cuisine-button {
-        display: inline-block;
-        padding: 5px 10px;
-        border: 1px solid #04635e; /* Softer Teal Green */
-        border-radius: 4px;
-        background-color: #e8f5f3; /* Light Teal */
-        color: #04635e;
-        font-size: 0.9em;
-        cursor: default;
-    }
-
-  
-    @media (max-width: 768px) {
+{%if forloop.first %}
+    <style>
         .restaurant-card {
-            flex-direction: column;
-            align-items: flex-start;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            border: 1px solid #04635e;
+            width: calc(100% - 45px);
+            border-radius: 8px;
+            padding-inline: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .restaurant-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         .restaurant-info {
-            margin-left: 0;
-            margin-top: 10px;
+            flex: 1;
+            margin-left: 20px;
         }
 
         .restaurant-actions {
-            width: 100%;
-            justify-content: space-between;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-    }
-
-    @media (max-width: 480px) {
-        .restaurant-card {
-            padding: 10px;
-        }
-
-        .restaurant-info h3 {
-            font-size: 1rem;
-        }
-
         .restaurant-actions button {
-            font-size: 0.9rem;
-            padding: 8px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
-    }
-</style>
+
+        .more-info {
+            background-color: #04635e; /* Softer Teal Green */
+            color: white;
+        }
+
+        .book-table {
+            background-color: #d92f2f; /* Softer Bright Red */
+            color: white;
+            margin-left: 10px;
+        }
+        
+        .cuisine-button {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #04635e; /* Softer Teal Green */
+            border-radius: 4px;
+            background-color: #e8f5f3; /* Light Teal */
+            color: #04635e;
+            font-size: 0.9em;
+            cursor: default;
+        }
+
+    
+        @media (max-width: 768px) {
+            .restaurant-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .restaurant-info {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .restaurant-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .restaurant-card {
+                padding: 10px;
+            }
+
+            .restaurant-info h3 {
+                font-size: 1rem;
+            }
+
+            .restaurant-actions button {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+        }
+    </style>
+{%endif%}
 <div class="restaurant-card">
     <img src="{{restaurant.get_logo}}"> 
     <div class="restaurant-info">
@@ -109,7 +112,12 @@
         </p>
     </div>
     <div class="restaurant-actions">
-        <a href="/restaurant/{{restaurant.uuid}}"><button class="more-info">More Info</button></a>
-        <a href="/NotImplemented"><button class="book-table">Book a Table</button></a>
+        <a href="{% url "restaurant" name=restaurant.uuid %}"><button class="more-info">More Info</button></a>
+        {% if user.is_authenticated %}
+        <form action="/api/add_favorite?id={{restaurant.uuid}}&loc={{request.path}}" method="POST">
+            {% csrf_token %}
+            <button type="submit"class="book-table">Add to Favorites</button>
+        </form>
+        {% endif %}
     </div>
 </div>

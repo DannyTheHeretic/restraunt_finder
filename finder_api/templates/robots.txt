@@ -1,0 +1,23 @@
+User-agent: Googlebot
+Disallow:
+
+User-agent: Bingbot
+Disallow:
+
+User-agent: *
+Disallow: /
+
+# Block specific AI user agents
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT
+Disallow: /
+
+User-agent: Claude
+Disallow: /
+
+User-agent: Bard
+Disallow: /
+
+# Allow other user agents if needed

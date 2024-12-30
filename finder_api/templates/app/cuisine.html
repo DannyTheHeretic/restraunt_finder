@@ -1,4 +1,4 @@
-{% extends "app/embed/layout.html" %}
+{% extends "layout.html" %}
 
 {% block content %}
 <style>
@@ -60,6 +60,6 @@
     {% endfor %}
 </div>
 
-{% include "app/embed/pagination.html" %}
+{% include "app/embed/pagination.html" with var_name="page" %}
 
 {% endblock content %}
