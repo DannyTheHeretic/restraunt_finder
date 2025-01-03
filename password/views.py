@@ -10,7 +10,7 @@ from finder_api.forms import RegisterForm
 class RegisterView(View):
     form_class = RegisterForm
     initial = {'key': 'value'}
-    template_name = 'app/register.html'
+    template_name = 'app/accounts/register.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)

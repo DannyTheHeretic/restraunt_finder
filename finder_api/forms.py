@@ -30,9 +30,31 @@ class ReviewsForm(forms.ModelForm):
     class Meta:
         model = Reviews
         exclude = ["uuid","created_at", "user","restaurant"]
+        widgets = {
+            "rating": forms.Select(
+                attrs={
+                    "class": "custom-select",
+                    "id": "rating-select",
+                    "aria-label": "Rating select",
+                },
+                choices=[(x / 10, f"{x / 10:.1f}") for x in range(101)],
+            ),
+            "review_text": forms.Textarea(
+                attrs={
+                    "class": "custom-textarea",
+                    "placeholder": "Write your review here...",
+                    "rows": 3,
+                }
+            ),
+        }
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Add a common class for styling all fields
+        for field_name, field in self.fields.items():
+            field.widget.attrs["class"] = field.widget.attrs.get("class", "") + " custom-input"
+
         
 
 class RegisterForm(UserCreationForm):

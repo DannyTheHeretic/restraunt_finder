@@ -15,6 +15,6 @@ class CuisineAdmin(admin.ModelAdmin):
 
     fieldsets: ClassVar = [
         ("Features", {"fields": ("name",
-                                 "description", "logo")}),
+                                "description", "logo")}),
     ]
 

@@ -5,13 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="RestaurantFinder">
     <meta property="og:type" content="Website">
-    <meta property="og:url" content="https://restaurants.theheretic.work/" />
-    <meta property="og:image" content="https://restaurants.theheretic.work/static/images/logo.webp"/>
+    <meta property="og:url" content="https://restaurant-finders.com/" />
+    <meta property="og:image" content="https://restaurant-finders.com/static/images/logo.webp"/>
+    {% load static %}
+    {% load pwa %}
+    {% progressive_web_app_meta %}
     {% block head %}{% endblock head %}
     <title>Restaurant Finder</title>
-    {% load static %}
+    <script>
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+    </script>
     {% load tz i18n %}
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9316273063901065" crossorigin="anonymous"></script>
+
     <style>
         body {
             margin: 0;
@@ -172,7 +183,7 @@
                 display: flex;
                 justify-content: center;
                 margin-top: 20px;
-                margin-bottom: 150px
+                margin-bottom: 150px;
             }
 
             .pagination a {
@@ -222,7 +233,6 @@
             display: flex;
             justify-content: center;
             margin-top: 20px;
-            margin-bottom: 150px
         }
 
         .pagination a {

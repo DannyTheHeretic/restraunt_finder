@@ -18,20 +18,33 @@ class RestaurantAdmin(admin.ModelAdmin):
 
     fieldsets: ClassVar = [
         (
-            "Features",
+            None, {
+                "fields": ("uuid",),
+            },
+        ),
+        (
+            "Location", 
             {
                 "fields": (
-                    "uuid",
-                    "name",
                     "address",
                     "city",
                     "country",
+                    "lat",
+                    "long",
+                ),
+            },
+        ),
+        (
+            "Features",
+            {
+                "fields": (
+                    "name",
                     "phone_number",
                     "website",
                     "average_rating",
                     "price_level",
                     "logo",
-                )
+                ),
             },
         ),
     ]

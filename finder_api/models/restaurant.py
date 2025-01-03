@@ -2,6 +2,7 @@
 
 from uuid import uuid4
 from django.db import models
+
 from django.core.validators import RegexValidator
 
 
@@ -25,7 +26,6 @@ class Restaurant(models.Model):
     name = models.CharField(verbose_name="Name of the Restaurant",max_length=255)
     lat = models.DecimalField(default=0,max_digits=9, decimal_places=6)
     long = models.DecimalField(default=0,max_digits=9, decimal_places=6)
-    
     address = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=63, blank=True)
     country = models.CharField(max_length=63, blank=True)
@@ -69,7 +69,15 @@ class Restaurant(models.Model):
             return price[self.price_level-1][1]
         except ValueError:
             return ""
-        
+    
+    def loc_set(self):
+        return self.lat > 1 or self.lat < -1
+    
+    def search(self):
+        return f"{self.address}+{self.city}+{self.country}"
+
+    def g_search(self):
+        return f"{self.name}+{self.search()}"
 
     def __str__(self):
         return self.name

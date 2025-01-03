@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block style %}
+.followers-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    display: grid;
+    width: 80%;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+{% endblock style %}
+{% block content %}
+
+<div class="followers-container">
+    {% for follower in page_obj %}
+        {% include "app/embed/follower_card.html"%}
+    {% empty %}
+        <p>No followers to display.</p>
+    {% endfor %}
+</div>
+
+{% include "app/embed/pagination.html" %}
+{% endblock content %}

@@ -11,7 +11,7 @@ class Cuisine(models.Model):
     logo = models.URLField(max_length=511, default="", blank=True)
     class Meta:
         ordering = ["name"]
-     
+
     @admin.display(
         boolean=True,
         ordering="Has Logo?",

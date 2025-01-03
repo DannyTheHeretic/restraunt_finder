@@ -1,11 +1,8 @@
-User-agent: Googlebot
-Disallow:
-
-User-agent: Bingbot
-Disallow:
-
 User-agent: *
-Disallow: /
+Allow: / 
+
+User-agent: Mediapartners-Google
+Allow: /
 
 # Block specific AI user agents
 User-agent: GPTBot

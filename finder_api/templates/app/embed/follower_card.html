@@ -1,0 +1,99 @@
+{% load static %}
+
+{% if forloop.first %}
+<style>
+    .follower-card {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        background-color: #ffffff;
+        border: 1px solid #04635e;
+        border-radius: 8px;
+        padding-inline: 15px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .follower-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .follower-card img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .follower-info {
+        flex: 1;
+        margin-left: 20px;
+    }
+
+    .follower-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .follower-actions button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .view-profile {
+        background-color: #04635e; /* Softer Teal Green */
+        color: white;
+    }
+
+    .send-message {
+        background-color: #8c1f28; /* Primary Red */
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .follower-card {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .follower-info {
+            margin-left: 0;
+            margin-top: 10px;
+        }
+
+        .follower-actions {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .follower-card {
+            padding: 10px;
+        }
+
+        .follower-info h3 {
+            font-size: 1rem;
+        }
+
+        .follower-actions button {
+            font-size: 0.9rem;
+            padding: 8px;
+        }
+    }
+</style>
+{% endif %}
+
+<div class="follower-card">
+    <div class="follower-info">
+        <h3>{{ follower.following_user_id.username }}</h3>
+        <h5>Added: {{ follower.created|date:"M d, Y" }}</h5>
+    </div>
+    <div class="follower-actions">
+        <a href="{% url 'accounts' uuid=follower.following_user_id.uuid %}"><button class="view-profile">View Profile</button></a>
+    </div>
+</div>

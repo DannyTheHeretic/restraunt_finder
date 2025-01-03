@@ -1,4 +1,11 @@
 {% extends "layout.html" %}
+{% block head %}
+{% load static %}
+
+<script src="{% static 'js/cards.js' %}"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{% endblock head %}
 {% block style %}
     .details-container {
         max-width: 800px;
@@ -9,6 +16,10 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         animation: fadeIn 0.8s ease-out;
         width: 90%; /* Adjust for mobile */
+    }
+    .maps-button {
+        cursor: pointer;
+        width:calc(100%/2 - 10px);
     }
 
     .details-container img {
@@ -78,6 +89,48 @@
         border-radius: 8px;
         z-index: 0;
     }
+    .custom-textarea{
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    .custom-input,
+    .custom-select,
+    .custom-textarea {
+        resize: none;
+        width: 100%;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: #fff;
+        transition: border-color 0.2s;
+    }
+
+    .custom-input:focus,
+    .custom-select:focus,
+    .custom-textarea:focus {
+        border-color: #0077ff;
+        outline: none;
+    }
+
+    .sub-button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #0077ff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .sub-button:hover {
+        background-color: #005bb5;
+    }
+
 
     @keyframes fadeIn {
         0% {
@@ -100,6 +153,9 @@
     }
 
     @media (max-width: 768px) {
+        
+
+        
         .details-container {
             padding: 15px;
         }
@@ -121,7 +177,12 @@
         .details-container {
             padding: 10px;
         }
-
+        .custom-input,
+        .custom-select,
+        .custom-textarea {
+            width: 100%;
+            font-size: 14px;
+        }
         .details-container img {
             width: 100%;
         }
@@ -155,39 +216,67 @@
     <h3>Address: {{ restaurant.address }}</h3>
     <h3>City: {{ restaurant.city }}</h3>
     <h3>Website: <a href="{{ restaurant.website }}" target="_blank">{{ restaurant.website }}</a></h3>
-    <h3>Price Level: {{ restaurant.price_level }}</h3>
-    {% if user.is_authenticated %}
-    <form action="/api/add_favorite?id={{restaurant.uuid}}&loc={{request.path}}" method="POST">
-        {% csrf_token %}
-        <button type="submit"class="cuisine-button">Add to Favorites</button>
-    </form>
-    {% endif %}
-    <h3>Cuisine:
+    <h3>Price Level: {{ restaurant.get_price }}</h3>
+
+    <h3>Cuisine:</h3>
         {% for t in restaurant.catagory.all %}
             <a href="/cuisine/{{ t }}" class="cuisine-button">{{ t }}</a>
         {% endfor %}
-    </h3>
+    <div>
+        <h3>More Options:</h3>
+        <button class="maps-button cuisine-button" onclick="mapsSelector()">
+            Open in Maps
+        </button>
+        {% if user.is_authenticated %}
+            {% if restaurant not in user.favorites.all %}
+                <button onclick="add_favorite('{{restaurant.uuid}}')" class="maps-button cuisine-button">Add to Favorites</button>
+            {% else %}
+                <button onclick="remove_favorite('{{restaurant.uuid}}')" class="maps-button cuisine-button">Remove from Favorites</button>
+            {% endif %}
+        {% endif %}
+    </div>
 
-    <div class="map-container">
+    <script>
+        function mapsSelector() {
+            if ((navigator.platform.indexOf("iPhone") != -1) || 
+                (navigator.platform.indexOf("iPad") != -1) || 
+                (navigator.platform.indexOf("iPod") != -1))
+                    window.open("https://maps.apple.com/?q={{ restaurant.search | urlize }}");
+            else
+                window.open("https://maps.google.com/maps/search/?api=1&query={{ restaurant.g_search | urlize }}");
+        }
+    </script>
+    {% comment %} <div class="map-container">
         <h3>Location</h3>
         <div id="map"></div>
-    </div>
+    </div> {% endcomment %}
 
     <div class="reviews-section">
         <h3>Reviews</h3>
+        {% if user.is_authenticated %}
+        <form style="margin-bottom:20px;" method="post" novalidate>
+            {% csrf_token %}
+            <label for="rating-select">Rating</label>
+            {{ form.rating }}
+            <label for="review_text">Your Review</label>
+            {{ form.review_text }}
+            <button class="sub-button" type="submit">Submit Review</button>
+        </form>
+        {% endif %}
         {% for review in restaurant.reviews_set.all %}
-        {% include "app/embed/review_card.html" %} 
+            {% include "app/embed/review_card.html" %}
         {% empty %}
         <p>No reviews yet. Be the first to leave one!</p>
         {% endfor %}
+        {% include "app/embed/pagination.html" %}
     </div>
+
 </div>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{% comment %} 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var map = L.map('map').setView([0, 0], 13); // Default center
+        var map = L.map('map').setView([{{restaurant.lat}}, {{restaurant.long}}], 13); // Default center
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -197,6 +286,7 @@
         fetch(`https://nominatim.openstreetmap.org/search?q={{ restaurant.name | urlize }} {{ restaurant.address | urlize }} {{ restaurant.city | urlize }} {{ restaurant.country | urlize }}&format=json&limit=1`)
             .then(response => response.json())
             .then(data => {
+                console.warn(data)
                 if (data.length > 0) {
                     var location = data[0];
                     var lat = location.lat;
@@ -204,10 +294,10 @@
                     map.setView([lat, lon], 15);
                     L.marker([lat, lon]).addTo(map).bindPopup("{{ restaurant.address }}").openPopup();
                 } else {
-                    console.error("No results found for the address.");
+                    L.marker([{{restaurant.lat}}, {{restaurant.long}}]).addTo(map).bindPopup("{{ restaurant.address }}").openPopup();
                 }
             })
             .catch(error => console.error("Error fetching geocode data:", error));
     });
-</script>
+</script> {% endcomment %}
 {% endblock content %}

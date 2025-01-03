@@ -14,7 +14,7 @@ services:
   web:
     build: .
     restart: always
-    command: "gunicorn restaurant_finder.wsgi:application --reload -b 0.0.0.0:8000"
+    command: "gunicorn restaurant_core.wsgi:application --access-logfile - --reload -b 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:

@@ -13,6 +13,8 @@ class Themes(models.Model):
 
     class Meta:
         ordering = ["name"]
+        verbose_name_plural = "Themes"
+        
 
     @admin.display(
         boolean=True,

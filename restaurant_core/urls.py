@@ -1,5 +1,5 @@
 """
-URL configuration for restaurant_finder project.
+URL configuration for restaurant_core project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -22,11 +22,12 @@ from finder_api.forms import BootstrapAuthenticationForm
 
 urlpatterns = [
     path("", include("finder_api.urls")),
-    path("api/", include("finder_api.api.urls")),
+    path("", include("password.urls")),
+    path('', include('pwa.urls')),
     path(
         "login",
         LoginView.as_view(
-            template_name="app/login.html",
+            template_name="login.html",
             authentication_form=BootstrapAuthenticationForm,
             extra_context={
                 "title": "Log in",

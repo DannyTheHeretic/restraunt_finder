@@ -14,4 +14,4 @@ WORKDIR /code
 EXPOSE 8000
 
 # Run Gunicorn when the container starts
-CMD ["gunicorn", "restaurant_finder.wsgi:application", "-b", "0.0.0.0:8000"]
+CMD ["gunicorn", "restaurant_core.wsgi:application", "-b", "0.0.0.0:8000"]

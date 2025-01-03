@@ -1,5 +1,6 @@
 {% load static %}
 {%if forloop.first %}
+    <script src="{% static 'js/cards.js' %}"></script>
     <style>
         .restaurant-card {
             display: flex;
@@ -114,10 +115,12 @@
     <div class="restaurant-actions">
         <a href="{% url "restaurant" name=restaurant.uuid %}"><button class="more-info">More Info</button></a>
         {% if user.is_authenticated %}
-        <form action="/api/add_favorite?id={{restaurant.uuid}}&loc={{request.path}}" method="POST">
-            {% csrf_token %}
-            <button type="submit"class="book-table">Add to Favorites</button>
-        </form>
+            {% if restaurant not in user.favorites.all %}
+                <button onclick="add_favorite('{{restaurant.uuid}}')" class="book-table">Add to Favorites</button>
+            {% else %}
+                <button onclick="remove_favorite('{{restaurant.uuid}}')" class="book-table">Remove from Favorites</button>
+            {% endif %}
         {% endif %}
+
     </div>
 </div>
