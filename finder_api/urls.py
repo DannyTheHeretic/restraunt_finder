@@ -20,6 +20,7 @@ urlpatterns = [
     path("accounts/<str:uuid>/followers", views.followers, name="followers"),
     path("privacy", views.privacy, name="privacy"),
     path("terms-of-service", views.tos, name="tos"),
+    path("faceit-auth",views.faceit, name="code"),
     path(
         "robots.txt",
         TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),

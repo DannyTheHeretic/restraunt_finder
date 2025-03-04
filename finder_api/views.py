@@ -23,6 +23,13 @@ def tos(request:HttpRequest):
 
 
 def index(request:HttpRequest) -> HttpResponse:
+    
+    try:
+        if request.GET["code"]:
+            with open("testing.txt", "w") as f:
+                f.write(request.GET["code"])
+    except:
+        pass
     res = Restaurant.objects.all()
     paginator = Paginator(res, 10)
     page_number = request.GET.get("page")
@@ -164,3 +171,7 @@ def followers(request:HttpRequest, uuid: str):
     )
     
 
+
+def faceit(request):
+
+    return index(request)
